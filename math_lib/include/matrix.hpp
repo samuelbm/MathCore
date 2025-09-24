@@ -9,14 +9,14 @@ public:
     Matrix(Matrix const& other);
     Matrix& operator=(Matrix const& other);
     ~Matrix();
-    // size_t getRows() const;
-    // size_t getColumns() const;
+    size_t getRows() const;
+    size_t getColumns() const;
 
-    // double operator()(size_t row_i, size_t column_j);
-    // double& operator()(size_t row_i, size_t column_j) const;
+    double operator()(size_t row_i, size_t column_j) const;
+    double& operator()(size_t row_i, size_t column_j);
 
-    // bool operator==(Matrix const& other) const;
-    // bool operator!=(Matrix const& other) const;
+    bool operator==(Matrix const& other) const;
+    bool operator!=(Matrix const& other) const;
 
     // Matrix& operator*=(double scalar);
     // Matrix operator*(double scalar) const;
@@ -51,14 +51,15 @@ public:
 
 private:
     size_t index(size_t row_i, size_t column_j) const;
-    double operator[](size_t index);
-    double& operator[](size_t index) const;
+    double operator[](size_t index) const;
+    double& operator[](size_t index);
     
 
 private: 
     size_t rows;
     size_t columns;   
     double* data;
+    static constexpr double error_threshold = 1e-9;
 };
 
 #endif // CALCULATOR_HPP

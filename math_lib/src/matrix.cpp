@@ -1,15 +1,19 @@
 #include "matrix.hpp"
 #include <algorithm>
 #include <cstring>
+#include <cassert>
+#include <cmath>
 
 Matrix::Matrix(size_t rows, size_t columns)
     : rows(rows), columns(columns), data(new double[rows * columns]()) 
 {
-
+    assert(rows != 0);
+    assert(columns != 0);
 }
 
 Matrix::Matrix(const Matrix& other)
-    : rows(other.rows), columns(other.columns), data(new double[other.rows * other.columns]) {
+    : rows(other.rows), columns(other.columns), data(new double[other.rows * other.columns]) 
+{
     std::copy(other.data, other.data + rows * columns, data);
 }
 
@@ -29,35 +33,46 @@ Matrix::~Matrix() {
 }
 
 
-// size_t Matrix::getRows() const
-// {
+size_t Matrix::getRows() const
+{
+    return rows;
+}
 
-// }
+size_t Matrix::getColumns() const
+{
+    return columns;
+}
 
-// size_t Matrix::getColumns() const
-// {
-    
-// }
+double Matrix::operator()(size_t row_i, size_t column_j) const
+{
+    return data[index(row_i, column_j)];
+}
 
-// double Matrix::operator()(size_t row_i, size_t column_j)
-// {
+double& Matrix::operator()(size_t row_i, size_t column_j)
+{
+    return data[index(row_i, column_j)];
+}
 
-// }
+bool Matrix::operator==(Matrix const& other) const
+{  
+    if (rows != other.rows || columns != other.columns) {
+        return false;
+    }
 
-// double& Matrix::operator()(size_t row_i, size_t column_j) const
-// {
+    size_t number_of_elements = rows * columns;
+    for (size_t i = 0; i < number_of_elements; ++i) 
+    {
+        if (std::abs(data[i] - other.data[i]) > error_threshold) {
+            return false;
+        }
+    }
+    return true;
+}
 
-// }
-
-// bool Matrix::operator==(Matrix const& other) const
-// {
-
-// }
-
-// bool Matrix::operator!=(Matrix const& other) const
-// {
-
-// }
+bool Matrix::operator!=(Matrix const& other) const
+{
+    return !(*this == other);
+}
 
 // Matrix& Matrix::operator*=(double scalar)
 // {
@@ -176,15 +191,17 @@ Matrix::~Matrix() {
 
 size_t Matrix::index(size_t row_i, size_t column_j) const
 {
-
+    assert(row_i < rows);
+    assert(column_j < columns);
+    return row_i * columns + column_j;
 }
 
-double Matrix::operator[](size_t index)
+double Matrix::operator[](size_t index) const
 {
-
+    return data[index];
 }
 
-double& Matrix::operator[](size_t index) const
+double& Matrix::operator[](size_t index)
 {
-    
+    return data[index];
 }
