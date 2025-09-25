@@ -18,19 +18,17 @@ public:
     bool operator==(Matrix const& other) const;
     bool operator!=(Matrix const& other) const;
 
-    // Matrix& operator*=(double scalar);
-    // Matrix operator*(double scalar) const;
-    // Matrix& operator/=(double scalar);
-    // Matrix operator/(double scalar) const;
+    Matrix& operator*=(double scalar);
+    Matrix operator*(double scalar) const;
+    Matrix& operator/=(double scalar);
+    Matrix operator/(double scalar) const;
 
-
-    // Matrix& operator+=(Matrix const& other);
-    // Matrix operator+(Matrix const& other) const;
-    // Matrix& operator-=(Matrix const& other);
-    // Matrix operator-(Matrix const& other) const;
-    
-    // Matrix& operator*=(Matrix const& other);
-    // Matrix operator*(Matrix const& other) const;
+    Matrix& operator+=(Matrix const& other);
+    Matrix operator+(Matrix const& other) const;
+    Matrix& operator-=(Matrix const& other);
+    Matrix operator-(Matrix const& other) const;
+    Matrix& operator*=(Matrix const& other);
+    Matrix operator*(Matrix const& other) const;
 
     // void swapRows(size_t row_i, size_t row_j);
     // void scaleRow(size_t row_i, double scale_factor);

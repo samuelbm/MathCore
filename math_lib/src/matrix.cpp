@@ -74,55 +74,68 @@ bool Matrix::operator!=(Matrix const& other) const
     return !(*this == other);
 }
 
-// Matrix& Matrix::operator*=(double scalar)
-// {
+Matrix& Matrix::operator*=(double scalar)
+{
+    size_t number_of_elements = rows * columns;
+    for (size_t i = 0; i < number_of_elements; ++i) 
+    {
+        data[i] *= scalar;
+    }
+    return *this;
+}
 
-// }
+Matrix Matrix::operator*(double scalar) const
+{
+    Matrix result(*this);
+    result *= scalar;
+    return result;
+}
 
-// Matrix Matrix::operator*(double scalar) const
-// {
+Matrix& Matrix::operator/=(double scalar)
+{
+    assert(std::abs(scalar) > error_threshold);
+    return *this *= (1.0 / scalar);
+}
 
-// }
+Matrix Matrix::operator/(double scalar) const
+{
+    assert(std::abs(scalar) > error_threshold);
+    Matrix result(*this);
+    result /= scalar;
+    return result;
+}
 
-// Matrix& Matrix::operator/=(double scalar)
-// {
+Matrix& Matrix::operator+=(Matrix const& other)
+{
+    assert(rows == other.rows);
+    assert(columns == other.columns);
+    return *this;
+}
 
-// }
-
-// Matrix Matrix::operator/(double scalar) const
-// {
-
-// }
-
-// Matrix& Matrix::operator+=(Matrix const& other)
-// {
-
-// }
-
-// Matrix Matrix::operator+(Matrix const& other) const
-// {
+Matrix Matrix::operator+(Matrix const& other) const
+{
     
-// }
+}
 
-// Matrix& Matrix::operator-=(Matrix const& other)
-// {
+Matrix& Matrix::operator-=(Matrix const& other)
+{
 
-// }
+}
 
-// Matrix Matrix::operator-(Matrix const& other) const
-// {
+Matrix Matrix::operator-(Matrix const& other) const
+{
 
-// }
+}
 
-// Matrix& Matrix::operator*=(Matrix const& other)
-// {
+Matrix& Matrix::operator*=(Matrix const& other)
+{
 
-// }
+}
 
-// Matrix Matrix::operator*(Matrix const& other) const
-// {
+Matrix Matrix::operator*(Matrix const& other) const
+{
 
-// }
+}
 
 // void Matrix::swapRows(size_t row_i, size_t row_j)
 // {
