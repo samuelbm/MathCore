@@ -30,9 +30,9 @@ public:
     Matrix& operator*=(Matrix const& other);
     Matrix operator*(Matrix const& other) const;
 
-    // void swapRows(size_t row_i, size_t row_j);
-    // void scaleRow(size_t row_i, double scale_factor);
-    // void reduceRow(size_t target_row, size_t source_row);
+    void swapRows(size_t row_i, size_t row_j);
+    void scaleRow(size_t row_i, double scale_factor);
+    void reduceRow(size_t target_row, size_t source_row);
 
     // static Matrix fill(size_t rows, size_t columns, double value=0.0);
     // static Matrix identity(size_t size);

@@ -109,48 +109,102 @@ Matrix& Matrix::operator+=(Matrix const& other)
 {
     assert(rows == other.rows);
     assert(columns == other.columns);
+    size_t number_of_elements = rows * columns;
+    for (size_t i = 0; i < number_of_elements; ++i) 
+    {
+        data[i] += other.data[i];
+    }   
     return *this;
 }
 
 Matrix Matrix::operator+(Matrix const& other) const
 {
-    
+    assert(rows == other.rows);
+    assert(columns == other.columns);
+    Matrix result(*this);
+    result += other;
+    return result;
 }
 
 Matrix& Matrix::operator-=(Matrix const& other)
 {
-
+    assert(rows == other.rows);
+    assert(columns == other.columns);
+    size_t number_of_elements = rows * columns;
+    for (size_t i = 0; i < number_of_elements; ++i) 
+    {
+        data[i] -= other.data[i];   
+    }
+    return *this;
 }
 
 Matrix Matrix::operator-(Matrix const& other) const
 {
-
+    assert(rows == other.rows);
+    assert(columns == other.columns);
+    Matrix result(*this);
+    result -= other;
+    return result;
 }
 
 Matrix& Matrix::operator*=(Matrix const& other)
 {
-
+    assert(columns == other.rows);
+    Matrix result(rows, other.columns);
+    for (size_t row_i=0; row_i < rows; ++row_i)
+    {
+        for (size_t column_j=0; column_j < other.columns; ++column_j)
+        {
+            double sum = 0.0;
+            for (size_t k=0; k < columns; ++k)
+            {
+                sum += (*this)(row_i, k) * other(k, column_j);
+            }
+            result(row_i, column_j) = sum;
+        }
+    }
+    *this = result;
+    return *this;
 }
 
 Matrix Matrix::operator*(Matrix const& other) const
 {
-
+    assert(columns == other.rows);
+    Matrix result(*this);
+    result *= other;
+    return result;
 }
 
-// void Matrix::swapRows(size_t row_i, size_t row_j)
-// {
+void Matrix::swapRows(size_t row_i, size_t row_j)
+{
+    assert(row_i < rows);
+    assert(row_j < rows);
+    assert(row_i != row_j);
+    for (size_t column = 0; column < columns; ++column) 
+    {
+        std::swap((*this)(row_i, column), (*this)(row_j, column));
+    }
+}
 
-// }
+void Matrix::scaleRow(size_t row_i, double scale_factor)
+{
+    assert(row_i < rows);
+    for (size_t column = 0; column < columns; ++column) 
+    {
+        (*this)(row_i, column) *= scale_factor;
+    }
+}
 
-// void Matrix::scaleRow(size_t row_i, double scale_factor)
-// {
-
-// }
-
-// void Matrix::reduceRow(size_t target_row, size_t source_row)
-// {
-
-// }
+void Matrix::reduceRow(size_t target_row, size_t source_row)
+{
+    assert(target_row < rows);
+    assert(source_row < rows);
+    assert(target_row != source_row);
+    for (size_t column = 0; column < columns; ++column) 
+    {
+        (*this)(target_row, column) -= (*this)(source_row, column);
+    }
+}
 
 // Matrix Matrix::fill(size_t rows, size_t columns, double value=0.0)
 // {
