@@ -8,9 +8,10 @@ include_directories(include)
 include_directories(third_party/googletest/googletest/include)
 
 add_library(matrix_lib src/matrix.cpp)
+add_library(matrix_utils_lib src/matrix_utils.cpp)
 
 add_executable(example examples/examples.cpp)
-target_link_libraries(example matrix_lib)
+target_link_libraries(example matrix_lib matrix_utils_lib)
 
 add_subdirectory(third_party/googletest googletest_build)
 
