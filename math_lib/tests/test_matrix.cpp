@@ -279,3 +279,132 @@ TEST(MatrixRowOperationTest, GivenMatrix_WhenReducingRow_ThenRowIsReduced) {
 
     ASSERT_TRUE(A == expected);
 }
+
+TEST(MatrixStaticTest, GivenMatrix_WhenFillingWithValue_ThenMatrixisFilled) {
+    double fill_value = 3.14;
+
+    Matrix expected(2, 2);
+    expected(0, 0) = fill_value; expected(0, 1) = fill_value;
+    expected(1, 0) = fill_value; expected(1, 1) = fill_value;
+
+    Matrix A = Matrix::fill(2, 2, fill_value);
+
+    ASSERT_TRUE(A == expected);
+}
+
+TEST(MatrixStaticTest, GivenMatrix_WhenCallingIdentity_ThenMatrixisIdentity) {    
+    Matrix expected(2, 2);
+    expected(0, 0) = 1.0; expected(0, 1) = 0.0;
+    expected(1, 0) = 0.0; expected(1, 1) = 1.0;
+
+    Matrix A = Matrix::identity(2);
+
+    ASSERT_TRUE(A == expected);
+}
+
+TEST(MatrixStatic2DTest, GivenMatrix_WhenRotation2D_ThenReturnAppropriateMatrix) {    
+    double angle_degrees = 90.0;
+    Matrix expected(3, 3);
+    expected(0, 0) = 0.0; expected(0, 1) = -1.0; expected(0, 2) = 0.0;
+    expected(1, 0) = 1.0; expected(1, 1) = 0.0; expected(1, 2) = 0.0;
+    expected(2, 0) = 0.0; expected(2, 1) = 0.0; expected(2, 2) = 1.0;
+
+    Matrix A = Matrix::homogeneousRotation2D(angle_degrees);
+
+    ASSERT_TRUE(A == expected);
+}
+
+TEST(MatrixStatic2DTest, GivenMatrix_WhenScale2D_ThenReturnAppropriateMatrix) {    
+    double scale_factor_x = 2.0;
+    double scale_factor_y = 3.0;
+    Matrix expected(3, 3);
+    expected(0, 0) = scale_factor_x; expected(0, 1) = 0.0; expected(0, 2) = 0.0;
+    expected(1, 0) = 0.0; expected(1, 1) = scale_factor_y; expected(1, 2) = 0.0;
+    expected(2, 0) = 0.0; expected(2, 1) = 0.0; expected(2, 2) = 1.0;
+
+    Matrix A = Matrix::homogeneousScaling2D(scale_factor_x, scale_factor_y);
+
+    ASSERT_TRUE(A == expected);
+}
+
+TEST(MatrixStatic2DTest, GivenMatrix_WhenTranslation2D_ThenReturnAppropriateMatrix) {    
+    double translation_x = 2.0;
+    double translation_y = 3.0;
+    Matrix expected(3, 3);
+    expected(0, 0) = 1.0; expected(0, 1) = 0.0; expected(0, 2) = translation_x;
+    expected(1, 0) = 0.0; expected(1, 1) = 1.0; expected(1, 2) = translation_y;
+    expected(2, 0) = 0.0; expected(2, 1) = 0.0; expected(2, 2) = 1.0;
+
+    Matrix A = Matrix::homogeneousTranslation2D(translation_x, translation_y);
+
+    ASSERT_TRUE(A == expected);
+}
+
+TEST(MatrixStatic3DTest, GivenMatrix_WhenRotationX3D_ThenReturnAppropriateMatrix) {    
+    double angle_degrees = 90.0;
+    Matrix expected(4, 4);
+    expected(0, 0) = 1.0; expected(0, 1) = 0.0; expected(0, 2) = 0.0; expected(0, 3) = 0.0;
+    expected(1, 0) = 0.0; expected(1, 1) = 0.0; expected(1, 2) = -1.0; expected(1, 3) = 0.0;
+    expected(2, 0) = 0.0; expected(2, 1) = 1.0; expected(2, 2) = 0.0; expected(2, 3) = 0.0;
+    expected(3, 0) = 0.0; expected(3, 1) = 0.0; expected(3, 2) = 0.0; expected(3, 3) = 1.0;
+
+    Matrix A = Matrix::homogeneousRotationX3D(angle_degrees);
+
+    ASSERT_TRUE(A == expected);
+}
+
+TEST(MatrixStatic3DTest, GivenMatrix_WhenRotationY3D_ThenReturnAppropriateMatrix) {    
+    double angle_degrees = 90.0;
+    Matrix expected(4, 4);
+    expected(0, 0) = 0.0; expected(0, 1) = 0.0; expected(0, 2) = 1.0; expected(0, 3) = 0.0;
+    expected(1, 0) = 0.0; expected(1, 1) = 1.0; expected(1, 2) = 0.0; expected(1, 3) = 0.0;
+    expected(2, 0) = -1.0; expected(2, 1) = 0.0; expected(2, 2) = 0.0; expected(2, 3) = 0.0;
+    expected(3, 0) = 0.0; expected(3, 1) = 0.0; expected(3, 2) = 0.0; expected(3, 3) = 1.0;
+
+    Matrix A = Matrix::homogeneousRotationY3D(angle_degrees);
+
+    ASSERT_TRUE(A == expected);
+}
+
+TEST(MatrixStatic3DTest, GivenMatrix_WhenRotationZ3D_ThenReturnAppropriateMatrix) {    
+    double angle_degrees = 90.0;
+    Matrix expected(4, 4);
+    expected(0, 0) = 0.0; expected(0, 1) = -1.0; expected(0, 2) = 0.0; expected(0, 3) = 0.0;
+    expected(1, 0) = 1.0; expected(1, 1) = 0.0; expected(1, 2) = 0.0; expected(1, 3) = 0.0;
+    expected(2, 0) = 0.0; expected(2, 1) = 0.0; expected(2, 2) = 1.0; expected(2, 3) = 0.0;
+    expected(3, 0) = 0.0; expected(3, 1) = 0.0; expected(3, 2) = 0.0; expected(3, 3) = 1.0;
+
+    Matrix A = Matrix::homogeneousRotationZ3D(angle_degrees);
+
+    ASSERT_TRUE(A == expected);
+}
+
+TEST(MatrixStatic3DTest, GivenMatrix_WhenScale3D_ThenReturnAppropriateMatrix) {    
+    double scale_factor_x = 2.0;
+    double scale_factor_y = 3.0;
+    double scale_factor_z = 4.0;
+    Matrix expected(4, 4);
+    expected(0, 0) = scale_factor_x; expected(0, 1) = 0.0; expected(0, 2) = 0.0; expected(0, 3) = 0.0;
+    expected(1, 0) = 0.0; expected(1, 1) = scale_factor_y; expected(1, 2) = 0.0; expected(1, 3) = 0.0;
+    expected(2, 0) = 0.0; expected(2, 1) = 0.0; expected(2, 2) = scale_factor_z; expected(2, 3) = 0.0;
+    expected(3, 0) = 0.0; expected(3, 1) = 0.0; expected(3, 2) = 0.0; expected(3, 3) = 1.0;
+
+    Matrix A = Matrix::homogeneousScaling3D(scale_factor_x, scale_factor_y, scale_factor_z);
+
+    ASSERT_TRUE(A == expected);
+}
+
+TEST(MatrixStatic3DTest, GivenMatrix_WhenTranslation3D_ThenReturnAppropriateMatrix) {    
+    double translation_x = 2.0;
+    double translation_y = 3.0;
+    double translation_z = 4.0;
+    Matrix expected(4, 4);
+    expected(0, 0) = 1.0; expected(0, 1) = 0.0; expected(0, 2) = 0.0; expected(0, 3) = translation_x;
+    expected(1, 0) = 0.0; expected(1, 1) = 1.0; expected(1, 2) = 0.0; expected(1, 3) = translation_y;
+    expected(2, 0) = 0.0; expected(2, 1) = 0.0; expected(2, 2) = 1.0; expected(2, 3) = translation_z;
+    expected(3, 0) = 0.0; expected(3, 1) = 0.0; expected(3, 2) = 0.0; expected(3, 3) = 1.0;
+
+    Matrix A = Matrix::homogeneousTranslation3D(translation_x, translation_y, translation_z);
+
+    ASSERT_TRUE(A == expected);
+}

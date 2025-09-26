@@ -206,55 +206,101 @@ void Matrix::reduceRow(size_t target_row, size_t source_row)
     }
 }
 
-// Matrix Matrix::fill(size_t rows, size_t columns, double value=0.0)
-// {
+Matrix Matrix::fill(size_t rows, size_t columns, double value)
+{
+    Matrix result = Matrix(rows, columns);
+    size_t number_of_elements = rows * columns;
+    std::fill(result.data, result.data + number_of_elements, value);
+    return result;
+}
 
-// }
+Matrix Matrix::identity(size_t size)
+{
+    Matrix result = Matrix::fill(size, size, 0.0);
+    for (size_t i = 0; i < size; ++i)
+    {
+        result(i, i) = 1.0; 
+    }
+    return result;
+}
 
-// Matrix Matrix::identity(size_t size)
-// {
+Matrix Matrix::homogeneousRotation2D(double angle_degrees)
+{
+    Matrix result = Matrix::identity(3);
+    double angle_radians = angle_degrees * M_PI / 180.0;
+    double cos = std::cos(angle_radians);
+    double sin = std::sin(angle_radians);
+    result(0, 0) = cos; result(0, 1) = -sin;
+    result(1, 0) = sin; result(1, 1) = cos; 
+    return result;
+}
 
-// }
+Matrix Matrix::homogeneousScaling2D(double scale_factor_x, double scale_factor_y)
+{
+    Matrix result = Matrix::identity(3);
+    result(0, 0) = scale_factor_x;
+    result(1, 1) = scale_factor_y;
+    return result;
+}
 
-// Matrix Matrix::homogeneousRotation2D(double angle_degrees)
-// {
+Matrix Matrix::homogeneousTranslation2D(double translation_x, double translation_y)
+{
+    Matrix result = Matrix::identity(3);
+    result(0, 2) = translation_x;
+    result(1, 2) = translation_y;
+    return result;
+}
 
-// }
+Matrix Matrix::homogeneousRotationX3D(double angle_degrees)
+{
+    Matrix result = Matrix::identity(4);
+    double angle_radians = angle_degrees * M_PI / 180.0;
+    double cos = std::cos(angle_radians);
+    double sin = std::sin(angle_radians);
+    result(1, 1) = cos; result(1, 2) = -sin;
+    result(2, 1) = sin; result(2, 2) = cos; 
+    return result;
+}
 
-// Matrix Matrix::homogeneousScaling2D(double angle_degrees)
-// {
+Matrix Matrix::homogeneousRotationY3D(double angle_degrees)
+{
+    Matrix result = Matrix::identity(4);
+    double angle_radians = angle_degrees * M_PI / 180.0;
+    double cos = std::cos(angle_radians);
+    double sin = std::sin(angle_radians);
+    result(0, 0) = cos; result(0, 2) = sin;
+    result(2, 0) = -sin; result(2, 2) = cos; 
+    return result;
+}
 
-// }
+Matrix Matrix::homogeneousRotationZ3D(double angle_degrees)
+{
+    Matrix result = Matrix::identity(4);
+    double angle_radians = angle_degrees * M_PI / 180.0;
+    double cos = std::cos(angle_radians);
+    double sin = std::sin(angle_radians);
+    result(0, 0) = cos; result(0, 1) = -sin;
+    result(1, 0) = sin; result(1, 1) = cos; 
+    return result;
+}
 
-// Matrix Matrix::homogeneousTranslation2D(double translation_x, double translation_y)
-// {
+Matrix Matrix::homogeneousScaling3D(double scale_factor_x, double scale_factor_y, double scale_factor_z)
+{
+    Matrix result = Matrix::identity(4);
+    result(0, 0) = scale_factor_x;
+    result(1, 1) = scale_factor_y;
+    result(2, 2) = scale_factor_z;
+    return result;
+}
 
-// }
-
-// Matrix Matrix::homogeneousRotationX3D(double angle_degrees)
-// {
-
-// }
-
-// Matrix Matrix::homogeneousRotationY3D(double angle_degrees)
-// {
-
-// }
-
-// Matrix Matrix::homogeneousRotationZ3D(double angle_degrees)
-// {
-
-// }
-
-// Matrix Matrix::homogeneousScaling3D(double scale_factor_x, double scale_factor_y, double scale_factor_z)
-// {
-
-// }
-
-// Matrix Matrix::homogeneousTranslation3D(double translation_x, double translation_y, double translation_z)
-// {
-
-// }
+Matrix Matrix::homogeneousTranslation3D(double translation_x, double translation_y, double translation_z)
+{
+    Matrix result = Matrix::identity(4);
+    result(0, 3) = translation_x;
+    result(1, 3) = translation_y;
+    result(2, 3) = translation_z;
+    return result;
+}
 
 size_t Matrix::index(size_t row_i, size_t column_j) const
 {
