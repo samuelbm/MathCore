@@ -280,6 +280,32 @@ TEST(MatrixRowOperationTest, GivenMatrix_WhenReducingRow_ThenRowIsReduced) {
     ASSERT_TRUE(A == expected);
 }
 
+TEST(MatrixRowOperationTest, GivenMatrix_WhenAskingForPivot_ThenReturnPivotRowWithBiggestAbsoluteValue) {
+    Matrix A(3, 3);
+    A(0, 0) = 1.0; A(0, 1) = -5.0; A(0, 2) = 7.0;
+    A(1, 0) = 2.0; A(1, 1) = 2.0; A(1, 2) = 0.0;
+    A(2, 0) = -3.0; A(2, 1) = -3.0; A(2, 2) = 3.0;
+
+    size_t column = 0;
+    size_t expected = 2;
+    size_t pivot_row = A.find_pivot_row(column);
+
+    ASSERT_EQ(expected, pivot_row);
+}
+
+TEST(MatrixRowOperationTest, GivenMatrix_WhenAskingForPivot_ThenReturnPivotRowEqualOrGreaterThanColumnIndex) {
+    Matrix A(3, 3);
+    A(0, 0) = 1.0; A(0, 1) = -5.0; A(0, 2) = 7.0;
+    A(1, 0) = 2.0; A(1, 1) = 2.0; A(1, 2) = 0.0;
+    A(2, 0) = -3.0; A(2, 1) = -3.0; A(2, 2) = 3.0;
+
+    size_t column = 1;
+    size_t expected = 2;
+    size_t pivot_row = A.find_pivot_row(column);
+
+    ASSERT_EQ(expected, pivot_row);
+}
+
 TEST(MatrixStaticTest, GivenMatrix_WhenFillingWithValue_ThenMatrixisFilled) {
     double fill_value = 3.14;
 

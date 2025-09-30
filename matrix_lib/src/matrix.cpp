@@ -205,10 +205,29 @@ void Matrix::reduceRow(size_t target_row, size_t source_row)
     assert(target_row < rows);
     assert(source_row < rows);
     assert(target_row != source_row);
-    for (size_t column = 0; column < columns; ++column) 
+    for (size_t column_j = 0; column_j < columns; ++column_j) 
     {
-        (*this)(target_row, column) -= (*this)(source_row, column);
+        (*this)(target_row, column_j) -= (*this)(source_row, column_j);
     }
+}
+
+size_t Matrix::find_pivot_row(size_t column_j)
+{
+    assert(column_j < columns);
+    assert(column_j < rows);
+    size_t pivot_row = column_j;
+    double pivot = (*this)(column_j, column_j);
+    for(size_t row_i= column_j + 1; row_i < rows; row_i++)
+    {
+        double candidate_pivot = (*this)(row_i, column_j);
+        if(std::fabs(candidate_pivot) > std::fabs(pivot))
+        {
+            pivot = candidate_pivot;
+            pivot_row = row_i;
+        }
+    }
+
+    return pivot_row;
 }
 
 Matrix Matrix::fill(size_t rows, size_t columns, double value)
