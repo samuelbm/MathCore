@@ -1,0 +1,1 @@
+bool are_doubles_nearly_equal(double a, double b, double threshold=1e-9);
