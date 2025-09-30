@@ -14,7 +14,7 @@
     {
       "label": "Run Unit Tests",
       "type": "shell",
-      "command": "./build/test_matrix --gtest_catch_exceptions=1",
+      "command": "./build/test_linear_algebra --gtest_catch_exceptions=1",
       "dependsOn": "Build All",
       "group": "test",
       "problemMatcher": []

@@ -5,7 +5,7 @@
       "name": "Run Example and Unit Tests",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspaceFolder}/build/example",
+      "program": "${workspaceFolder}/build/test_linear_algebra",
       "args": [],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",
