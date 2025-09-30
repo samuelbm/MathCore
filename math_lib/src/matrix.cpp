@@ -1,4 +1,5 @@
 #include "matrix.hpp"
+#include "matrix_utils.hpp"
 #include <algorithm>
 #include <cstring>
 #include <cassert>
@@ -62,7 +63,10 @@ bool Matrix::operator==(Matrix const& other) const
     size_t number_of_elements = rows * columns;
     for (size_t i = 0; i < number_of_elements; ++i) 
     {
-        if (std::abs(data[i] - other.data[i]) > error_threshold) {
+        // if(!are_doubles_nearly_equal(data[i], other.data[i], error_threshold))
+        if(std::fabs(data[i] - other.data[i]) > error_threshold)
+        {
+            std::cout << "data[i]: " << data[i] << ", other.data[i]: " << other.data[i] << ", fabs: " << std::fabs(data[i] - other.data[i]) << std::endl; // --- IGNORE ---
             return false;
         }
     }

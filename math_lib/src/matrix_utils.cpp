@@ -5,6 +5,11 @@
 #include <iomanip>
 #include <cmath>
 
+bool are_doubles_nearly_equal(double a, double b, double threshold)
+{
+    return std::fabs(a - b) < threshold;
+}
+
 std::string convert_matrix_to_string(Matrix const& matrix, size_t precision)
 {
     std::ostringstream oss;
