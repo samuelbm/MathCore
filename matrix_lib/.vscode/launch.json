@@ -6,6 +6,7 @@
       "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceFolder}/build/test_linear_algebra",
+      // "program": "${workspaceFolder}/build/test_matrix",
       "args": [],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",

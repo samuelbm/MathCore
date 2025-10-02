@@ -271,11 +271,13 @@ TEST(MatrixRowOperationTest, GivenMatrix_WhenReducingRow_ThenRowIsReduced) {
     A(0, 0) = 1.0; A(0, 1) = 2.0;
     A(1, 0) = 3.0; A(1, 1) = 4.0;
 
+    double coefficient = A(1, 0);
+
+    A.reduceRow(1, 0, coefficient);
+
     Matrix expected(2, 2);
     expected(0, 0) = 1.0; expected(0, 1) = 2.0;
-    expected(1, 0) = 2.0; expected(1, 1) = 2.0;
-
-    A.reduceRow(1, 0);
+    expected(1, 0) = 0.0; expected(1, 1) = -2.0;
 
     ASSERT_TRUE(A == expected);
 }

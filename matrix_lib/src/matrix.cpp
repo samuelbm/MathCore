@@ -200,14 +200,14 @@ void Matrix::scaleRow(size_t row_i, double scale_factor)
     }
 }
 
-void Matrix::reduceRow(size_t target_row, size_t source_row)
+void Matrix::reduceRow(size_t target_row, size_t source_row, double coefficient)
 {
     assert(target_row < rows);
     assert(source_row < rows);
     assert(target_row != source_row);
     for (size_t column_j = 0; column_j < columns; ++column_j) 
     {
-        (*this)(target_row, column_j) -= (*this)(source_row, column_j);
+        (*this)(target_row, column_j) -= coefficient * (*this)(source_row, column_j);
     }
 }
 
