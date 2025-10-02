@@ -213,3 +213,103 @@ TEST(MatrixManipulationTest, Given3by3Matrix_WhenStichingMatricesHorizontally_Th
     
     ASSERT_TRUE(expected == C);
 }
+
+TEST(MatrixVectorTest, GivenAVector_WhenTestingIfVector_ThenReturnTrue) {
+    Matrix A(3, 1);
+    A(0, 0) = 1.0;
+    A(1, 0) = 2.0;
+    A(2, 0) = 3.0;
+    
+    ASSERT_TRUE(isVector(A));
+}
+
+TEST(MatrixVectorTest, GivenANoneVector_WhenTestingIfVector_ThenReturnFalse) {
+    Matrix A(3, 3);
+    A(0, 0) = 1.0; A(0, 1) = 2.0; A(0, 2) = 3.0;
+    A(1, 0) = 4.0; A(1, 1) = 5.0; A(1, 2) = 6.0;
+    A(2, 0) = 7.0; A(2, 1) = 8.0; A(2, 2) = 9.0;
+    
+    ASSERT_FALSE(isVector(A));
+}
+
+TEST(MatrixVectorTest, GivenTwoVectors_WhenTestingDotProduct_ThenReturnDotProduct) {
+    Matrix A(3, 1);
+    A(0, 0) = 1.0;
+    A(1, 0) = 2.0;
+    A(2, 0) = 3.0;
+
+    Matrix B(3, 1);
+    B(0, 0) = 3.0;
+    B(1, 0) = 2.0;
+    B(2, 0) = 1.0;
+
+    double scalar_product = computeVectorDotProduct(A, B);
+
+    double expected = 10.0;
+    
+    ASSERT_NEAR(expected, scalar_product, 1e-9);
+}
+
+TEST(MatrixVectorTest, GivenAVector_WhenTestingNormSquared_ThenReturnNormSquared) {
+    Matrix A(3, 1);
+    A(0, 0) = 2.0;
+    A(1, 0) = 3.0;
+    A(2, 0) = 6.0;
+
+    double norm_squared = computeVectorNormSquared(A);
+
+    double expected = 49.0;
+    
+    ASSERT_NEAR(expected, norm_squared, 1e-9);
+}
+
+TEST(MatrixVectorTest, GivenAVector_WhenTestingNorm_ThenReturnNorm) {
+    Matrix A(3, 1);
+    A(0, 0) = 2.0;
+    A(1, 0) = 3.0;
+    A(2, 0) = 6.0;
+
+    double norm = computeVectorNorm(A);
+
+    double expected = 7.0;
+    
+    ASSERT_NEAR(expected, norm, 1e-9);
+}
+
+TEST(MatrixVectorTest, GivenTwoVectors_WhenTestingCrossProduct_ThenReturnVector) {
+    Matrix A(3, 1);
+    A(0, 0) = 1.0;
+    A(1, 0) = 2.0;
+    A(2, 0) = 3.0;
+
+    Matrix B(3, 1);
+    B(0, 0) = 4.0;
+    B(1, 0) = 5.0;
+    B(2, 0) = 6.0;
+
+    Matrix cross_product = computeVectorCrossProduct(A, B);
+
+    Matrix expected(3, 1);
+    expected(0, 0) = -3.0;
+    expected(1, 0) = 6.0;
+    expected(2, 0) = -3.0;
+    
+    ASSERT_TRUE(expected == cross_product);
+}
+
+TEST(MatrixVectorTest, GivenAVector_WhenTestingUnit_ThenReturnUnitVector) {
+    Matrix A(3, 1);
+    A(0, 0) = 2.0;
+    A(1, 0) = 3.0;
+    A(2, 0) = 6.0;
+
+    Matrix unit = computeUnitVector(A);
+
+    Matrix expected(3, 1);
+    expected(0, 0) = 2.0/7.0;
+    expected(1, 0) = 3.0/7.0;
+    expected(2, 0) = 6.0/7.0;
+    
+    ASSERT_TRUE(expected == unit);
+}
+

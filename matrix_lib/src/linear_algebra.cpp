@@ -2,6 +2,8 @@
 #include "matrix.hpp"
 #include <cassert>
 #include <iostream>
+#include <cmath>
+#include "math_utils.hpp"
 
     Matrix getSubMatrix(Matrix const& base_matrix, size_t start_row, size_t start_column, size_t sub_rows, size_t sub_columns)
     {
@@ -88,35 +90,57 @@
         return stiched_matrix;
     }
     
-    // bool isVector(Matrix const& vectort)
-    // {
-
-    // }
+    bool isVector(Matrix const& vector)
+    {
+        return vector.getColumns() == 1;
+    }
     
-    // double computeVectorNormSquared(Matrix const& vector)
-    // {
+    double computeVectorDotProduct(Matrix const& vector_a, Matrix const& vector_b)
+    {
+        assert(isVector(vector_a));
+        assert(isVector(vector_b));
+        assert(vector_a.getRows() == vector_b.getRows());
+        double scalor_product = 0.0;
+        for(size_t row_i=0; row_i<vector_a.getRows(); row_i++)
+        {
+            scalor_product += vector_a(row_i, 0) * vector_b(row_i, 0); 
+        }
 
-    // }
-
-    // double computeVectorNorm(Matrix const& vector)
-    // {
-
-    // }
-
-    // double computeVectorDotProduct(Matrix const& vector_a, Matrix const& vector_b)
-    // {
-
-    // }
+        return scalor_product;
+    }
     
-    // Matrix computeVectorCrossProduct()
-    // {
+    double computeVectorNormSquared(Matrix const& vector)
+    {
+        assert(isVector(vector));
+        return computeVectorDotProduct(vector, vector);
+    }
 
-    // }
+    double computeVectorNorm(Matrix const& vector)
+    {
+        return std::sqrt(computeVectorNormSquared(vector));
+    }
     
-    // Matrix computeUnitVector(Matrix const& vector)
-    // {
-
-    // }
+    Matrix computeVectorCrossProduct(Matrix const& vector3D_a, Matrix const& vector3D_b)
+    {
+        assert(isVector(vector3D_a));
+        assert(isVector(vector3D_b));
+        assert(vector3D_a.getRows() == 3);
+        assert(vector3D_b.getRows() == 3);
+        Matrix cross_product(3, 1);
+        cross_product(0, 0) = vector3D_a(1, 0)*vector3D_b(2, 0) - vector3D_a(2, 0)*vector3D_b(1, 0);
+        cross_product(1, 0) = -(vector3D_a(0, 0)*vector3D_b(2, 0) - vector3D_a(2, 0)*vector3D_b(0, 0));
+        cross_product(2, 0) = vector3D_a(0, 0)*vector3D_b(1, 0) - vector3D_a(1, 0)*vector3D_b(0, 0);
+        return cross_product;
+    }
+    
+    Matrix computeUnitVector(Matrix const& vector)
+    {
+        assert(isVector(vector));
+        assert(!are_doubles_nearly_equal(computeVectorNormSquared(vector), 0.0, 1e-9));
+        double norm = computeVectorNorm(vector);
+        Matrix unit_vector(vector);
+        return unit_vector / norm;
+    }
 
     // Matrix transpose(Matrix const& square_matrix, Matrix& result_matrix)
     // {

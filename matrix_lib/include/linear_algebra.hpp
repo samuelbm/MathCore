@@ -8,12 +8,12 @@
     void setColumn(Matrix& base_matrix, Matrix const& column_matrix, size_t column_j);
     Matrix stitchMatricesHorizontally(Matrix const& left_matrix, Matrix const& right_matrix); 
     
-    // bool isVector(Matrix const& vectort);
-    // double computeVectorNormSquared(Matrix const& vector);
-    // double computeVectorNorm(Matrix const& vector);
-    // double computeVectorDotProduct(Matrix const& vector_a, Matrix const& vector_b);
-    // Matrix computeVectorCrossProduct();
-    // Matrix computeUnitVector(Matrix const& vector);
+    bool isVector(Matrix const& vector);
+    double computeVectorNormSquared(Matrix const& vector);
+    double computeVectorDotProduct(Matrix const& vector_a, Matrix const& vector_b);
+    double computeVectorNorm(Matrix const& vector);
+    Matrix computeVectorCrossProduct(Matrix const& vector3D_a, Matrix const& vector3D_b);
+    Matrix computeUnitVector(Matrix const& vector);
 
     // Matrix transpose(Matrix const& square_matrix, Matrix& result_matrix);
     // Matrix exponentiate(Matrix const& square_matrix, Matrix& result_matrix);

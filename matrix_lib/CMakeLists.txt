@@ -17,7 +17,7 @@ target_link_libraries(matrix_lib PRIVATE math_lib)
 
 add_library(linear_algebra_lib src/linear_algebra.cpp)
 target_include_directories(linear_algebra_lib PUBLIC include)
-# target_link_libraries(linear_algebra_lib PRIVATE math_lib)
+target_link_libraries(linear_algebra_lib PUBLIC math_lib)
 
 add_library(matrix_utils_lib src/matrix_utils.cpp)
 target_include_directories(matrix_utils_lib PUBLIC include)
