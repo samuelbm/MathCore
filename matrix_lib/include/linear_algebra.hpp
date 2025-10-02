@@ -3,9 +3,9 @@
     Matrix getSubMatrix(Matrix const& base_matrix, size_t start_row, size_t start_column, size_t sub_rows, size_t sub_columns);
     Matrix getRow(Matrix const& base_matrix, size_t row_i);
     Matrix getColumn(Matrix const& base_matrix, size_t column_j);
-    void MatsetSubMatrix(Matrix const& base_row, Matrix const& sub_matrix, size_t start_row, size_t start_column, size_t sub_rows, size_t sub_columns, Matrix& result_matrix);
-    void setRow(Matrix const& base_matrix, size_t row_i, Matrix& result_matrix);
-    void setColumn(Matrix const& base_matrix, size_t column_j, Matrix& result_matrix);
+    void setSubMatrix(Matrix& base_row, Matrix const& sub_matrix, size_t start_row, size_t start_column, size_t sub_rows, size_t sub_columns);
+    void setRow(Matrix& base_matrix, Matrix const& row_matrix, size_t row_i);
+    void setColumn(Matrix& base_matrix, Matrix const& column_matrix, size_t column_j);
     Matrix stitchMatricesHorizontally(Matrix const& left_matrix, Matrix const& right_matrix); 
     
     // bool isVector(Matrix const& vectort);
