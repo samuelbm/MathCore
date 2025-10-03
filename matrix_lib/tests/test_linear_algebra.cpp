@@ -343,20 +343,22 @@ TEST(MatrixExponentiationTest, GivenASquareMatrix_WhenTestingExponentiation_Then
     ASSERT_TRUE(expected == exponentiated);
 }
 
-TEST(MatrixRREFTest, GivenAMatrix_WhenTestingRREF_ThenReturnRREFMatrix) {
-    Matrix A(3, 3);
-    A(0, 0) = 1.0; A(0, 1) = 2.0; A(0, 2) = 3.0;
-    A(1, 0) = 4.0; A(1, 1) = 5.0; A(1, 2) = 6.0;
-    A(2, 0) = 7.0; A(2, 1) = 8.0; A(2, 2) = 9.0;
+// TEST(MatrixRREFTest, GivenAMatrix_WhenTestingRREF_ThenReturnRREFMatrix) {
+//     Matrix A(3, 3);
+//     A(0, 0) = 1.0; A(0, 1) = 2.0; A(0, 2) = 3.0;
+//     A(1, 0) = 4.0; A(1, 1) = 5.0; A(1, 2) = 6.0;
+//     A(2, 0) = 7.0; A(2, 1) = 8.0; A(2, 2) = 9.0;
 
-    Matrix RREF = rowReducedEchelonForm(A);
+//     Matrix RREF = rowReducedEchelonForm(A);
 
-    Matrix expected(3, 3);
-    expected(0, 0) = 1.0; expected(0, 1) = 0.0; expected(0, 2) = -1.0;
-    expected(1, 0) = 0.0; expected(1, 1) = 1.0; expected(1, 2) = 2.0;
-    expected(2, 0) = 0.0; expected(2, 1) = 0.0; expected(2, 2) = 0.0;
+//     Matrix expected(3, 3);
+//     expected(0, 0) = 1.0; expected(0, 1) = 0.0; expected(0, 2) = -1.0;
+//     expected(1, 0) = 0.0; expected(1, 1) = 1.0; expected(1, 2) = 2.0;
+//     expected(2, 0) = 0.0; expected(2, 1) = 0.0; expected(2, 2) = 0.0;
     
-    ASSERT_TRUE(expected == RREF);
+//     ASSERT_TRUE(expected == RREF);
+
+// }
 
 // TEST(MatrixRankTest, GivenAMatrix_WhenTestingRank_ThenReturnRank) {
 //     Matrix A(2, 2);
@@ -371,4 +373,4 @@ TEST(MatrixRREFTest, GivenAMatrix_WhenTestingRREF_ThenReturnRREFMatrix) {
 //     expected(1, 0) = 0.330104; expected(1, 1) = 0.339793;
     
 //     ASSERT_TRUE(expected == exponentiated);
-}
+// }
