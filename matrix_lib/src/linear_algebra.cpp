@@ -142,32 +142,86 @@
         return unit_vector / norm;
     }
 
-    // Matrix transpose(Matrix const& square_matrix, Matrix& result_matrix)
-    // {
-
-    // }
+    Matrix computeTranspose(Matrix const& matrix)
+    {
+        Matrix transposed(matrix.getColumns(), matrix.getRows());
+        for(size_t row_i=0; row_i<matrix.getRows(); row_i++)
+        {
+            for(size_t column_j=0; column_j<matrix.getColumns(); column_j++)
+            {
+                transposed(column_j, row_i) = matrix(row_i, column_j);
+            }
+        }    
+        return transposed;
+    }
     
-    // Matrix exponentiate(Matrix const& square_matrix, Matrix& result_matrix)
-    // {
+    Matrix exponentiate(Matrix const& square_matrix,  size_t exponent)
+    {
+        assert(square_matrix.getRows() == square_matrix.getColumns());
+        Matrix exponentiated = Matrix::identity(square_matrix.getRows());
+        Matrix power_of_two(square_matrix);
+        if(exponent == 0)
+        {
+            return exponentiated;
+        }
+        else if(exponent == 1)
+        {
+            return square_matrix;
+        }
+        else
+        {
+            do
+            {
+                if(exponent % 2 == 1)
+                {
+                    exponentiated *= power_of_two;
+                }
+                power_of_two *= power_of_two;
+                exponent >>=1;
+            } while (exponent);
+        }
+    }
 
-    // }
-
-    // Matrix rowReducedEchelonForm(Matrix & matrix)
-    // {
-
-    // }
     
-    // Matrix solveLinearSystem(Matrix const& square_matrix_A, Matrix const& vector_b)
-    // {
-
-    // }
-    
-    // Matrix computeInverse(Matrix const& square_matrix, Matrix& result_matrix)
-    // {
-
-    // }
-    
-    // double computeDeterminant(Matrix const& square_matrix)
-    // {
+    Matrix rowReducedEchelonForm(Matrix & matrix)
+    {
+        Matrix RREF(matrix);
         
-    // }
+        
+        
+        
+        // size_t lead = 0;
+        // size_t rowCount = RREF.getRows();
+        // size_t columnCount = RREF.getColumns();
+        // for (size_t r = 0; r < rowCount; r++) {
+        //     if (lead >= columnCount)
+        //         return RREF;
+        //     size_t i = r;
+        //     while (std::abs(RREF(i, lead)) < 1e-9) {
+        //         i++;
+        //         if (i == rowCount) {
+        //             i = r;
+        //             lead++;
+        //             if (lead == columnCount)
+        //                 return RREF; 
+    }
+    
+    double computeRank(Matrix const& matrix)
+    {
+        
+    }
+
+    Matrix solveLinearSystem(Matrix const& square_matrix_A, Matrix const& vector_b)
+    {
+
+    }
+    
+    Matrix computeInverse(Matrix const& square_matrix, Matrix& result_matrix)
+    {
+
+    }
+    
+    double computeDeterminant(Matrix const& square_matrix)
+    {
+        
+    }

@@ -313,3 +313,62 @@ TEST(MatrixVectorTest, GivenAVector_WhenTestingUnit_ThenReturnUnitVector) {
     ASSERT_TRUE(expected == unit);
 }
 
+TEST(MatrixTransposeTest, GivenAMatrix_WhenTestingTranspose_ThenReturnTransposedMatrix) {
+    Matrix A(3, 2);
+    A(0, 0) = 1.0; A(0, 1) = 4.0;
+    A(1, 0) = 2.0; A(1, 1) = 5.0;
+    A(2, 0) = 3.0; A(2, 1) = 6.0;
+
+    Matrix transposed = computeTranspose(A);
+
+    Matrix expected(2, 3);
+    expected(0, 0) = 1.0; expected(0, 1) = 2.0; expected(0, 2) = 3.0;
+    expected(1, 0) = 4.0; expected(1, 1) = 5.0; expected(1, 2) = 6.0;
+    
+    ASSERT_TRUE(expected == transposed);
+}
+
+TEST(MatrixExponentiationTest, GivenASquareMatrix_WhenTestingExponentiation_ThenReturnExponentiatedMatrix) {
+    Matrix A(2, 2);
+    A(0, 0) = 0.9; A(0, 1) = 0.2;
+    A(1, 0) = 0.1; A(1, 1) = 0.8;
+
+    size_t exponent = 13;
+    Matrix exponentiated = exponentiate(A, exponent);
+
+    Matrix expected(2, 3);
+    expected(0, 0) = 0.669896; expected(0, 1) = 0.660207;
+    expected(1, 0) = 0.330104; expected(1, 1) = 0.339793;
+    
+    ASSERT_TRUE(expected == exponentiated);
+}
+
+TEST(MatrixRREFTest, GivenAMatrix_WhenTestingRREF_ThenReturnRREFMatrix) {
+    Matrix A(3, 3);
+    A(0, 0) = 1.0; A(0, 1) = 2.0; A(0, 2) = 3.0;
+    A(1, 0) = 4.0; A(1, 1) = 5.0; A(1, 2) = 6.0;
+    A(2, 0) = 7.0; A(2, 1) = 8.0; A(2, 2) = 9.0;
+
+    Matrix RREF = rowReducedEchelonForm(A);
+
+    Matrix expected(3, 3);
+    expected(0, 0) = 1.0; expected(0, 1) = 0.0; expected(0, 2) = -1.0;
+    expected(1, 0) = 0.0; expected(1, 1) = 1.0; expected(1, 2) = 2.0;
+    expected(2, 0) = 0.0; expected(2, 1) = 0.0; expected(2, 2) = 0.0;
+    
+    ASSERT_TRUE(expected == RREF);
+
+// TEST(MatrixRankTest, GivenAMatrix_WhenTestingRank_ThenReturnRank) {
+//     Matrix A(2, 2);
+//     A(0, 0) = 0.9; A(0, 1) = 0.2;
+//     A(1, 0) = 0.1; A(1, 1) = 0.8;
+
+//     size_t exponent = 13;
+//     Matrix exponentiated = exponentiate(A, exponent);
+
+//     Matrix expected(2, 3);
+//     expected(0, 0) = 0.669896; expected(0, 1) = 0.660207;
+//     expected(1, 0) = 0.330104; expected(1, 1) = 0.339793;
+    
+//     ASSERT_TRUE(expected == exponentiated);
+}

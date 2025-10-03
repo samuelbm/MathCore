@@ -15,9 +15,10 @@
     Matrix computeVectorCrossProduct(Matrix const& vector3D_a, Matrix const& vector3D_b);
     Matrix computeUnitVector(Matrix const& vector);
 
-    // Matrix transpose(Matrix const& square_matrix, Matrix& result_matrix);
-    // Matrix exponentiate(Matrix const& square_matrix, Matrix& result_matrix);
-    // Matrix rowReducedEchelonForm(Matrix & matrix);
-    // Matrix solveLinearSystem(Matrix const& square_matrix_A, Matrix const& vector_b);
-    // Matrix computeInverse(Matrix const& square_matrix, Matrix& result_matrix);
-    // double computeDeterminant(Matrix const& square_matrix);
+    Matrix computeTranspose(Matrix const& matrix);
+    Matrix exponentiate(Matrix const& square_matrix, size_t exponent);
+    Matrix rowReducedEchelonForm(Matrix & matrix);
+    double computeRank(Matrix const& matrix);
+    Matrix solveLinearSystem(Matrix const& square_matrix_A, Matrix const& vector_b);
+    Matrix computeInverse(Matrix const& square_matrix, Matrix& result_matrix);
+    double computeDeterminant(Matrix const& square_matrix);
