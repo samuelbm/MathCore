@@ -25,7 +25,7 @@ target_include_directories(matrix_utils_lib PUBLIC include)
 # Executable definitions
 add_executable(example examples/examples.cpp)
 target_include_directories(example PRIVATE include ../math_lib/include)
-target_link_libraries(example PRIVATE math_lib matrix_lib matrix_utils_lib)
+target_link_libraries(example PRIVATE math_lib matrix_lib linear_algebra_lib matrix_utils_lib)
 
 add_executable(test_matrix tests/test_matrix.cpp)
 target_include_directories(test_matrix PRIVATE include ../math_lib/include)

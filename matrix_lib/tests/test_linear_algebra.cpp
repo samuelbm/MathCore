@@ -76,6 +76,34 @@ TEST(MatrixManipulationTest, Given3by3Matrix_WhenGettingColumn_ThenMatrixReturnM
     ASSERT_TRUE(expected == B);
 }
 
+TEST(MatrixIsSquareTest, GivenSquareMatrix_WhenTestingForSaqure_ThenReturnTrue) {
+    Matrix A = Matrix::identity(3);
+    ASSERT_TRUE(isMatrixSquare(A));
+}
+
+TEST(MatrixIsSquareTest, GivenRectangleMatrix_WhenTestingForSaqure_ThenReturnFalse) {
+    Matrix A(3, 2);
+    ASSERT_FALSE(isMatrixSquare(A));
+}
+
+TEST(MatrixManipulationTest, GivenSquareMatrix_WhenComputingMinor_ThenReturnMinor) {
+    Matrix A(3, 3);
+    A(0, 0) = 1.0; A(0, 1) = 2.0; A(0, 2) = 3.0;
+    A(1, 0) = 4.0; A(1, 1) = 5.0; A(1, 2) = 6.0;
+    A(2, 0) = 7.0; A(2, 1) = 8.0; A(2, 2) = 9.0;
+ 
+    size_t row_excluded = 1;
+    size_t column_excluded = 1;
+
+    Matrix minor = getMinor(A, row_excluded, column_excluded);
+
+    Matrix expected(2, 2);
+    expected(0, 0) = 1.0; expected(0, 1) = 3.0;
+    expected(1, 0) = 7.0; expected(1, 1) = 9.0;
+
+    ASSERT_TRUE(expected == minor);
+}
+
 TEST(MatrixManipulationTest, Given3by3Matrix_WhenSettingSubmatrix_ThenMatrixReturnedWithCorrectSize) {
     Matrix A(3, 3);
     A(0, 0) = 1.0; A(0, 1) = 2.0; A(0, 2) = 3.0;
@@ -328,6 +356,135 @@ TEST(MatrixTransposeTest, GivenAMatrix_WhenTestingTranspose_ThenReturnTransposed
     ASSERT_TRUE(expected == transposed);
 }
 
+TEST(MatrixRREFTest, GivenAMatrix_WhenTestingRREF_ThenReturnRREFMatrix) {
+    Matrix A(3, 3);
+    A(0, 0) = 1.0; A(0, 1) = 2.0; A(0, 2) = 3.0;
+    A(1, 0) = 4.0; A(1, 1) = 5.0; A(1, 2) = 6.0;
+    A(2, 0) = 7.0; A(2, 1) = 8.0; A(2, 2) = 9.0;
+
+    rowReducedEchelonForm(A);
+
+    Matrix expected(3, 3);
+    expected(0, 0) = 1.0; expected(0, 1) = 0.0; expected(0, 2) = -1.0;
+    expected(1, 0) = 0.0; expected(1, 1) = 1.0; expected(1, 2) = 2.0;
+    expected(2, 0) = 0.0; expected(2, 1) = 0.0; expected(2, 2) = 0.0;
+    
+    ASSERT_TRUE(expected == A);
+
+}
+
+TEST(MatrixRankTest, GivenANullMatrix_WhenTestingRank_ThenReturnZero) {
+    Matrix A(2, 2);
+    A(0, 0) = 0.0; A(0, 1) = 0.0;
+    A(1, 0) = 0.0; A(1, 1) = 0.0;
+
+    size_t rank = computeRank(A);
+
+    size_t expected = 0;
+    
+    ASSERT_EQ(expected, rank);
+}
+
+TEST(MatrixRankTest, GivenAnIdentityMatrix_WhenTestingRank_ThenReturnFullRank) {
+    Matrix A = Matrix::identity(4);
+    
+    size_t rank = computeRank(A);
+
+    size_t expected = 4;
+    
+    ASSERT_EQ(expected, rank);
+}
+
+TEST(MatrixRankTest, GivenRectangularMatrixWithMLesserThanN_WhenTestingRank_ThenReturnRank) {
+    Matrix A(2, 3);
+    A(0, 0) = 0.0; A(0, 1) = 1.0; A(0, 2) = 0.0;
+    A(1, 0) = 0.0; A(1, 1) = 0.0; A(1, 2) = 1.0;
+    
+    size_t rank = computeRank(A);
+
+    size_t expected = 2;
+    
+    ASSERT_EQ(expected, rank);
+}
+
+TEST(MatrixRankTest, GivenSquareMatrix_WhenTestingRank_ThenReturnRank) {
+    Matrix A(3, 3);
+    A(0, 0) = 1.0; A(0, 1) = 2.0; A(0, 2) = 3.0;
+    A(1, 0) = 4.0; A(1, 1) = 5.0; A(1, 2) = 6.0;
+    A(2, 0) = 7.0; A(2, 1) = 8.0; A(2, 2) = 9.0;
+    
+    size_t rank = computeRank(A);
+
+    size_t expected = 2;
+    
+    ASSERT_EQ(expected, rank);
+}
+
+TEST(MatrixInvertibleTest, GivenSquareMatrix_WhenNoneSingular_ThenReturnTrue) {
+    Matrix A = Matrix::identity(3);
+    ASSERT_TRUE(isMatrixInvertible(A));
+}
+
+TEST(MatrixInvertibleTest, GivenSquareMatrix_WhenSingular_ThenReturnFalse) {
+    Matrix A(3, 3);
+    A(0, 0) = 1.0; A(0, 1) = 2.0; A(0, 2) = 3.0;
+    A(1, 0) = 4.0; A(1, 1) = 5.0; A(1, 2) = 6.0;
+    A(2, 0) = 7.0; A(2, 1) = 8.0; A(2, 2) = 9.0;
+    
+    ASSERT_FALSE(isMatrixInvertible(A));
+}
+
+TEST(MatrixSolveLinearSystemTest, GivenEquationSystem_WhenSolvingSystem_ThenReturnSolutionVector) {
+    Matrix A(3, 3);
+    A(0, 0) = 3.0; A(0, 1) = 2.0; A(0, 2) = 1.0;
+    A(1, 0) = 6.0; A(1, 1) = 2.0; A(1, 2) = 0.0;
+    A(2, 0) = 12.0; A(2, 1) = 6.0; A(2, 2) = -1.0;
+    
+    Matrix b(3, 1);
+    b(0, 0) = 3.0;
+    b(1, 0) = 3.0;
+    b(2, 0) = 6.0;
+
+    Matrix x = solveLinearSystem(A, b);
+
+    Matrix expected(3, 1);
+    expected(0, 0) = 1.0/3.0;
+    expected(1, 0) = 1.0/2.0;
+    expected(2, 0) = 1.0/1.0;
+    
+    ASSERT_TRUE(expected == x);
+}
+
+TEST(MatrixComputeInverseTest, GivenSquareMatrix_WhenComputingInverse_ThenReturnInverseMatrix) {
+    Matrix A(3, 3);
+    A(0, 0) = 1.0; A(0, 1) = 2.0; A(0, 2) = 3.0;
+    A(1, 0) = 0.0; A(1, 1) = 1.0; A(1, 2) = 4.0;
+    A(2, 0) = 5.0; A(2, 1) = 6.0; A(2, 2) = 0.0;
+    
+    Matrix inverse = computeInverse(A);
+    
+    Matrix expected(3, 3);
+    expected(0, 0) = -24.0; expected(0, 1) = 18.0; expected(0, 2) = 5.0;
+    expected(1, 0) = 20.0; expected(1, 1) = -15.0; expected(1, 2) = -4.0;
+    expected(2, 0) = -5.0; expected(2, 1) = 4.0; expected(2, 2) = 1.0;
+        
+    ASSERT_TRUE(expected == inverse);
+}
+
+TEST(MatrixComputeDeterminantTest, GivenInvertibleMatrix_WhenComputingDeterminant_ThenReturnDeterminant) {
+    Matrix A(4, 4);
+    A(0, 0) = 1.0; A(0, 1) = 1.0; A(0, 2) = 1.0; A(0, 3) = 1.0;
+    A(1, 0) = 2.0; A(1, 1) = 4.0; A(1, 2) = 6.0; A(1, 3) = 8.0;
+    A(2, 0) = 3.0; A(2, 1) = 9.0; A(2, 2) = 18.0; A(2, 3) = 30.0;
+    A(3, 0) = 4.0; A(3, 1) = 16.0; A(3, 2) = 40.0; A(3, 3) = 80.0;
+    
+    double determinant = computeDeterminant(A);
+    
+    double expected = 24.0;
+        
+    ASSERT_EQ(expected, determinant);
+}
+
 TEST(MatrixExponentiationTest, GivenASquareMatrix_WhenTestingExponentiation_ThenReturnExponentiatedMatrix) {
     Matrix A(2, 2);
     A(0, 0) = 0.9; A(0, 1) = 0.2;
@@ -336,41 +493,9 @@ TEST(MatrixExponentiationTest, GivenASquareMatrix_WhenTestingExponentiation_Then
     size_t exponent = 13;
     Matrix exponentiated = exponentiate(A, exponent);
 
-    Matrix expected(2, 3);
+    Matrix expected(2, 2);
     expected(0, 0) = 0.669896; expected(0, 1) = 0.660207;
     expected(1, 0) = 0.330104; expected(1, 1) = 0.339793;
     
     ASSERT_TRUE(expected == exponentiated);
 }
-
-// TEST(MatrixRREFTest, GivenAMatrix_WhenTestingRREF_ThenReturnRREFMatrix) {
-//     Matrix A(3, 3);
-//     A(0, 0) = 1.0; A(0, 1) = 2.0; A(0, 2) = 3.0;
-//     A(1, 0) = 4.0; A(1, 1) = 5.0; A(1, 2) = 6.0;
-//     A(2, 0) = 7.0; A(2, 1) = 8.0; A(2, 2) = 9.0;
-
-//     Matrix RREF = rowReducedEchelonForm(A);
-
-//     Matrix expected(3, 3);
-//     expected(0, 0) = 1.0; expected(0, 1) = 0.0; expected(0, 2) = -1.0;
-//     expected(1, 0) = 0.0; expected(1, 1) = 1.0; expected(1, 2) = 2.0;
-//     expected(2, 0) = 0.0; expected(2, 1) = 0.0; expected(2, 2) = 0.0;
-    
-//     ASSERT_TRUE(expected == RREF);
-
-// }
-
-// TEST(MatrixRankTest, GivenAMatrix_WhenTestingRank_ThenReturnRank) {
-//     Matrix A(2, 2);
-//     A(0, 0) = 0.9; A(0, 1) = 0.2;
-//     A(1, 0) = 0.1; A(1, 1) = 0.8;
-
-//     size_t exponent = 13;
-//     Matrix exponentiated = exponentiate(A, exponent);
-
-//     Matrix expected(2, 3);
-//     expected(0, 0) = 0.669896; expected(0, 1) = 0.660207;
-//     expected(1, 0) = 0.330104; expected(1, 1) = 0.339793;
-    
-//     ASSERT_TRUE(expected == exponentiated);
-// }

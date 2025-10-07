@@ -38,6 +38,41 @@
         return getSubMatrix(base_matrix, start_row, column_j, sub_rows, sub_columns);
     }
 
+    bool isMatrixSquare(Matrix const& matrix)
+    {
+        return matrix.getRows() == matrix.getColumns();  
+    }
+
+    Matrix getMinor(Matrix const& square_matrix, size_t excluded_row, size_t excluded_column)
+    {
+        assert(isMatrixSquare(square_matrix));
+        assert(excluded_row < square_matrix.getRows());
+        assert(excluded_column < square_matrix.getColumns());
+        size_t minor_size = square_matrix.getRows() - 1;
+        Matrix minor(minor_size, minor_size);
+        size_t minor_row = 0;
+        for(size_t row_i=0; row_i<square_matrix.getRows(); row_i++)
+        {
+            if(row_i == excluded_row)
+            {
+                continue;
+            }
+            size_t minor_column = 0;
+            for(size_t column_j=0; column_j<square_matrix.getColumns(); column_j++)
+            {
+                if(column_j == excluded_column)
+                {
+                    continue;
+                }
+                minor(minor_row, minor_column) = square_matrix(row_i, column_j);
+                minor_column++;
+            }
+            minor_row++;
+        }
+        return minor;
+    }
+
+
     void setSubMatrix(Matrix& base_matrix, Matrix const& sub_matrix, size_t start_row, size_t start_column, size_t sub_rows, size_t sub_columns)
     {
         assert(sub_rows >= 1);
@@ -136,7 +171,7 @@
     Matrix computeUnitVector(Matrix const& vector)
     {
         assert(isVector(vector));
-        assert(!are_doubles_nearly_equal(computeVectorNormSquared(vector), 0.0, 1e-9));
+        assert(!are_doubles_nearly_equal(computeVectorNormSquared(vector), 0.0, Matrix::error_threshold));
         double norm = computeVectorNorm(vector);
         Matrix unit_vector(vector);
         return unit_vector / norm;
@@ -154,10 +189,119 @@
         }    
         return transposed;
     }
+
+    void rowReducedEchelonForm(Matrix& matrix)
+    {
+        size_t number_of_pivots = std::min(matrix.getRows(), matrix.getColumns());
+        for(size_t pivot_index=0; pivot_index<number_of_pivots; pivot_index++)
+        {
+            size_t pivot_row = matrix.find_pivot_row(pivot_index);
+            if(std::abs(matrix(pivot_row, pivot_index)) < Matrix::error_threshold)
+            {
+                continue;
+            }
+            if(pivot_row != pivot_index)
+            {
+                matrix.swapRows(pivot_index, pivot_row);
+            }
+            double pivot = matrix(pivot_index, pivot_index);
+            matrix.scaleRow(pivot_index, 1.0 / pivot);
+            for(size_t target_row=0; target_row<matrix.getRows(); target_row++)
+            {
+                if(target_row != pivot_index)
+                {
+                    double coefficient = matrix(target_row, pivot_index);
+                    matrix.reduceRow(target_row, pivot_index, coefficient);
+                }
+            }
+        }
+    }
     
+    size_t computeRank(Matrix const& matrix)
+    {
+        size_t rank = 0;
+        Matrix RREF(matrix);
+        rowReducedEchelonForm(RREF);
+        size_t number_of_possible_pivots = std::max(RREF.getRows(), RREF.getColumns());
+        size_t row = 0;
+        size_t column = 0;
+        for(size_t index=0; index<number_of_possible_pivots; index++)
+        {
+            double element = RREF(row, column);
+            if(are_doubles_nearly_equal(element, 1.0, Matrix::error_threshold))
+            {
+                rank++;
+                row++;
+            }
+            column++;
+
+            if(row >= RREF.getRows() || column >= RREF.getColumns())
+            {
+                break;
+            }
+        }
+        return rank;
+    }
+
+    bool isMatrixInvertible(Matrix const& square_matrix)
+    {
+        assert(isMatrixSquare(square_matrix));
+        return computeRank(square_matrix) == square_matrix.getRows();
+    }
+
+    Matrix solveLinearSystem(Matrix const& square_matrix_A, Matrix const& vector_b)
+    {
+        assert(isMatrixInvertible(square_matrix_A));
+        assert(isVector(vector_b));
+        assert(square_matrix_A.getRows() == vector_b.getRows());
+        size_t n = square_matrix_A.getRows();
+        Matrix augmented_matrix = stitchMatricesHorizontally(square_matrix_A, vector_b);
+        rowReducedEchelonForm(augmented_matrix);
+        Matrix solution_vector = getColumn(augmented_matrix, n);
+        return solution_vector;
+    }
+    
+    Matrix computeInverse(Matrix const& square_matrix)
+    {
+        assert(isMatrixInvertible(square_matrix));
+        size_t n = square_matrix.getRows();
+        Matrix identity = Matrix::identity(n);
+        Matrix augmented_matrix = stitchMatricesHorizontally(square_matrix, identity);
+        rowReducedEchelonForm(augmented_matrix); 
+        size_t start_row = 0; 
+        size_t start_column = n; 
+        size_t sub_rows = n; 
+        size_t sub_columns = n;
+        Matrix inversed_matrix = getSubMatrix(augmented_matrix, start_row, start_column, sub_rows, sub_columns);
+        return inversed_matrix;
+    }
+    
+    double computeDeterminant(Matrix const& square_matrix)
+    {
+        assert(isMatrixInvertible(square_matrix));
+
+        size_t n = square_matrix.getRows();
+        if(n == 1)
+        {
+            return square_matrix(0, 0);
+        }
+        else
+        {
+            double determinant = 0.0;
+            for(size_t row_i=0; row_i<n; row_i++)
+            {
+                double factor = square_matrix(row_i, 0) * ((row_i % 2 == 0) ? 1.0 : -1.0);
+                Matrix minor = getMinor(square_matrix, row_i, 0);
+                double minor_determinant = computeDeterminant(minor);
+                determinant += factor * minor_determinant;
+            }
+            return determinant;
+        }
+    }
+
     Matrix exponentiate(Matrix const& square_matrix,  size_t exponent)
     {
-        assert(square_matrix.getRows() == square_matrix.getColumns());
+        assert(isMatrixSquare(square_matrix));
         Matrix exponentiated = Matrix::identity(square_matrix.getRows());
         Matrix power_of_two(square_matrix);
         if(exponent == 0)
@@ -179,49 +323,6 @@
                 power_of_two *= power_of_two;
                 exponent >>=1;
             } while (exponent);
+            return exponentiated;
         }
-    }
-
-    
-    Matrix rowReducedEchelonForm(Matrix & matrix)
-    {
-        Matrix RREF(matrix);
-        
-        
-        
-        
-        // size_t lead = 0;
-        // size_t rowCount = RREF.getRows();
-        // size_t columnCount = RREF.getColumns();
-        // for (size_t r = 0; r < rowCount; r++) {
-        //     if (lead >= columnCount)
-        //         return RREF;
-        //     size_t i = r;
-        //     while (std::abs(RREF(i, lead)) < 1e-9) {
-        //         i++;
-        //         if (i == rowCount) {
-        //             i = r;
-        //             lead++;
-        //             if (lead == columnCount)
-        //                 return RREF; 
-    }
-    
-    double computeRank(Matrix const& matrix)
-    {
-        
-    }
-
-    Matrix solveLinearSystem(Matrix const& square_matrix_A, Matrix const& vector_b)
-    {
-
-    }
-    
-    Matrix computeInverse(Matrix const& square_matrix, Matrix& result_matrix)
-    {
-
-    }
-    
-    double computeDeterminant(Matrix const& square_matrix)
-    {
-        
     }

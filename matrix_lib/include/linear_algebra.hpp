@@ -3,6 +3,8 @@
     Matrix getSubMatrix(Matrix const& base_matrix, size_t start_row, size_t start_column, size_t sub_rows, size_t sub_columns);
     Matrix getRow(Matrix const& base_matrix, size_t row_i);
     Matrix getColumn(Matrix const& base_matrix, size_t column_j);
+    bool isMatrixSquare(Matrix const& matrix);
+    Matrix getMinor(Matrix const& square_matrix, size_t excluded_row, size_t excluded_column);
     void setSubMatrix(Matrix& base_row, Matrix const& sub_matrix, size_t start_row, size_t start_column, size_t sub_rows, size_t sub_columns);
     void setRow(Matrix& base_matrix, Matrix const& row_matrix, size_t row_i);
     void setColumn(Matrix& base_matrix, Matrix const& column_matrix, size_t column_j);
@@ -16,9 +18,10 @@
     Matrix computeUnitVector(Matrix const& vector);
 
     Matrix computeTranspose(Matrix const& matrix);
-    Matrix exponentiate(Matrix const& square_matrix, size_t exponent);
-    Matrix rowReducedEchelonForm(Matrix & matrix);
-    double computeRank(Matrix const& matrix);
+    void rowReducedEchelonForm(Matrix& matrix);
+    size_t computeRank(Matrix const& matrix);
+    bool isMatrixInvertible(Matrix const& square_matrix);
     Matrix solveLinearSystem(Matrix const& square_matrix_A, Matrix const& vector_b);
-    Matrix computeInverse(Matrix const& square_matrix, Matrix& result_matrix);
+    Matrix computeInverse(Matrix const& square_matrix);
     double computeDeterminant(Matrix const& square_matrix);
+    Matrix exponentiate(Matrix const& square_matrix, size_t exponent);

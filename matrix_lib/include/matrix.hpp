@@ -58,7 +58,9 @@ private:
     size_t rows;
     size_t columns;   
     double* data;
-    static constexpr double error_threshold = 1e-9;
+
+public: 
+    static constexpr double error_threshold = 1e-6;
 };
 
 #endif // CALCULATOR_HPP

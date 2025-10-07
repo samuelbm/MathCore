@@ -12,11 +12,19 @@
 #include <cmath>
 int main() 
 {
-    Matrix A(2, 3);
-    A(0, 0) = -1.0; A(0, 1) = 0.0012345; A(0, 2) = 1.0;
-    A(1, 0) = 2.01; A(1, 1) = 1.0004; A(1, 2) = 12348.12355;
 
-    std::cout << convert_matrix_to_string(A) << std::endl;
+    std::cout << "Hello, Matrix Library!" << std::endl;
+
+    Matrix A(3, 3);
+    A(0, 0) = 1.0; A(0, 1) = 2.0; A(0, 2) = 3.0;
+    A(1, 0) = 4.0; A(1, 1) = 5.0; A(1, 2) = 6.0;
+    A(2, 0) = 7.0; A(2, 1) = 8.0; A(2, 2) = 9.0;
+
+
+    std::cout << "Matrix A:" << std::endl;
+    size_t rank = computeRank(A);
+    std::cout << convert_matrix_to_string(A, 6) << std::endl;
+    std::cout << "Rank: " << rank << std::endl;
 
     return 0;
 }
