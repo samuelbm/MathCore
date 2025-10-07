@@ -5,6 +5,8 @@ CMakeCache.txt
 cmake_install.cmake
 Makefile
 
+math_lib/.vscode/settings.json
+
 ### C ###
 # Prerequisites
 *.d

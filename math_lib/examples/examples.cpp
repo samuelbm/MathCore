@@ -1,12 +1,11 @@
 #include <iostream>
-#include "matrix.hpp"
+#include "math_utils.hpp"
+#include <cmath>
 
-int main() {
-    Matrix mat(3, 3);
 
-    int sum = mat.add(5, 3);
-
-    std::cout << "Sum: " << sum << std::endl;
+int main() 
+{
+    std::cout << "hello world" << std::endl;
 
     return 0;
 }

@@ -1,0 +1,20 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run Example and Unit Tests",
+      "type": "cppdbg",
+      "request": "launch",
+            // "program": "${workspaceFolder}/build/example",
+      "program": "${workspaceFolder}/build/test_linear_algebra",
+      // "program": "${workspaceFolder}/build/test_matrix",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}",
+      "environment": [],
+      "preLaunchTask": "Run Example",
+      "externalConsole": false,
+      "MIMode": "gdb"
+    }
+  ]
+}
